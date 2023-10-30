@@ -1,0 +1,13 @@
+Snoopy ne peut pas se deplacer en diagonale. Il ne peut se deplacer que dans les 4 directions classiques
+(Haut, Bas, Gauche et Droite) et dune seule case a la fois.
+La balle traverse tous les obstacles du terrain sans changer
+de direction. Elle tue Snoopy quand elle le touche.
+Un bloc poussable ne peut etre pousse qu une seule fois dans une direction precise mais ne peut pas
+sortir du niveau ! Ce type de bloc n est pas traversable.
+Un bloc cassable ne peut pas etre traverse. Pour le casser, il faut appuyer sur une touche speciale. Il
+ne libere aucun item.
+Un bloc piege tue instantanement si on le touche.
+Pour gagner, il faut recuperer les 4 oiseaux du niveau. Un fois un niveau termine, on charge
+automatiquement le niveau suivant en donnant son code dacces et ainsi de suite.
+Quand le joueur perd toutes ses vies, on affiche un ecran de GameOver et le jeu revient au menu
+principal.
