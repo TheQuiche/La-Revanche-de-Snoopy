@@ -1,0 +1,3 @@
+C:/Users/siniy/plateau/cmake-build-debug/CMakeFiles/plateau.dir
+C:/Users/siniy/plateau/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/siniy/plateau/cmake-build-debug/CMakeFiles/rebuild_cache.dir
