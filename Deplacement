@@ -1,0 +1,66 @@
+int deplacement(Snoopy *joueur)
+{
+    printf("%c",0x01);
+    int choix_deplacement;
+    printf(" Position x : %d, Position y: %d\n",joueur->position.x, joueur->position.y);
+    printf("Choissisez entre 1 et 4\n");
+    printf("1 - Avancer\n");
+    printf("2 - Reculer\n");
+    printf("3 - Monter\n");
+    printf("4 - Descendre \n");
+    printf("Choix : ");
+
+    int temps_depart = time(NULL);
+    int temps_restant = 120;
+
+    // On définit une alarme pour 30 secondes
+    alarm(30);
+
+    // On attend que le scanf ait fini de s'afficher
+    //sleep(1);
+
+    // On vide le flux d'entrée
+    fflush(stdin);
+
+    // On attend une réponse du joueur
+    int choix_saisi = 0;
+    while (choix_saisi == 0) {
+        printf("Temps restant : %d secondes\n", temps_restant);
+        temps_restant = 120 - difftime(time(NULL), temps_depart);
+
+        // On attend une réponse du joueur
+      //  scanf("%d",&choix_saisi);
+        choix_saisi=_getch()-'0';
+
+
+        if (temps_restant <= 0) {
+            printf("Temps écoulé : 120 secondes.\n");
+            return -1;
+        }
+    }
+
+    switch (choix_saisi)
+    {
+        case 1: // Avancer
+            joueur->position.x += 1;
+            printf("Snoopy avance d'une unite vers la droite. Nouvelle position : (%d, %d)\n", joueur->position.x, joueur->position.y);
+            break;
+        case 2: // Reculer
+            joueur->position.x -= 1;
+            printf("Snoopy recule d'une unite vers la gauche. Nouvelle position : (%d, %d)\n", joueur->position.x, joueur->position.y);
+            break;
+        case 3: // Monter
+            joueur->position.y -= 1;
+            printf("Snoopy monte d'une unite vers le haut. Nouvelle position : (%d, %d)\n", joueur->position.x, joueur->position.y);
+            break;
+        case 4: // Descendre
+            joueur->position.y += 1;
+            printf("Snoopy descend d'une unite vers le bas. Nouvelle position : (%d, %d)\n", joueur->position.x, joueur->position.y);
+            break;
+        default:
+            printf("Choix invalide. Veuillez entrer un nombre entre 1 et 4.\n");
+            return -1; // Valeur de retour pour indiquer une erreur
+    }
+
+    return 0;
+}
