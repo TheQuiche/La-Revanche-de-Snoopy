@@ -1,0 +1,52 @@
+#ifndef BIBLIO_H_INCLUDED
+#define BIBLIO_H_INCLUDED
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "conio.h"
+#include <string.h>
+#include <time.h>
+#include <windows.h>
+#include <unistd.h>
+#include <stdbool.h>
+
+typedef struct{
+    int x;
+    int y;
+}Position;
+/*typedef struct{
+int x1;
+int y1;
+}Position1;*/
+typedef struct {
+    Position positionPiege;
+} Piege;
+
+// Structure Snoopy
+typedef struct {
+    int vie;
+    int score[3];
+    int scoreTot;
+    Position position;
+    int nbOiseau;
+    int nbPieges;
+    Piege pieges[10];
+} Snoopy;
+
+
+
+typedef struct
+{
+    Position position_balle;
+    bool colli_balle;
+    int etat[4];
+    int x;
+    int y;
+} Balle;
+
+
+int deplacement(Snoopy *joueur,Balle *maBalle;);
+void plateau();
+void regles();
+int lecturemdp();
+#endif // BIBLIO_H_INCLUDED
