@@ -1,0 +1,338 @@
+#include "biblio.h"
+void menu()
+{
+    Snoopy joueur1;
+    int choix,sspgmdp,largeurP=20,hauteurP=10;
+    printf("1) Regles du jeu\n2) Lancer un nouveau jeu a partir du niveau 1\n3) Charger une partie\n4) Lancer directement un niveau via son Mot de passe\n5) Scores\n6) Quitter\n");
+
+    scanf("%d", &choix);
+
+    while (choix < 1 || choix > 6) {
+        printf("Entrer une valeur entre 1 et 6\n");
+        printf("1) Regles du jeu\n2) Lancer un nouveau jeu a partir du niveau 1\n3) Charger une partie\n4) Lancer directement un niveau via son Mot de passe\n5) Scores\n6) Quitter\n");
+        scanf("%d", &choix);
+    }
+
+    switch (choix) {
+        case 1:
+            printf("Vous avez choisi regles du jeu\n");
+            regles();
+            break;
+        case 2:
+            printf("Vous avez choisi lancer un nouveau jeu a partir du niveau 1\n");
+
+            while (joueur1.vie > 0) {
+                plateau(&joueur1);
+               /* afficherInfosJoueur(&joueur1);*/
+                deplacement(&joueur1);
+            }
+            break;
+
+        case 3:
+            printf("Vous avez choisi charger une partie\n");
+            break;
+        case 4:
+            printf("Vous avez choisi lancer directement un niveau via son Mot de passe\n");
+            sspgmdp = lecturemdp(); // Si la fonction lecturemdp est définie
+            break;
+        case 5:
+            printf("Vous avez choisi scores\n");
+            break;
+        case 6:
+            printf("Vous avez choisi quitter\n");
+            break;
+    }
+}
+
+void deplacementBalle(Balle *maBalle)
+{
+    // Déplacement en diagonale
+   if (maBalle->x==1 && maBalle->y==1)
+    {
+    maBalle->position_balle.x += 1;
+    maBalle->position_balle.y += 1;
+    }
+    else if (maBalle->x==(-1) && maBalle->y==1)
+    {
+    maBalle->position_balle.x -= 1;
+    maBalle->position_balle.y += 1;
+    }
+    else if (maBalle->x==1 && maBalle->y==(-1))
+    {
+    maBalle->position_balle.x += 1;
+    maBalle->position_balle.y -= 1;
+    }
+    else if (maBalle->x==(-1) && maBalle->y==(-1))
+    {
+    maBalle->position_balle.x -= 1;
+    maBalle->position_balle.y -= 1;
+    }
+
+}
+
+int deplacement(Snoopy *joueur, Balle *maBalle)
+{
+     printf("%c",0x01);
+
+    int choix_deplacement;
+    printf(" Position x : %d, Position y: %d\n",joueur->position.x, joueur->position.y);
+    printf("Position de la balle x : %d , y : %d \n",maBalle->position_balle.x,maBalle->position_balle.y);
+    printf("Etat balle : %d\n",maBalle->etat[0]);
+    printf("Temps restant : %d\n");
+    printf("Vie restante : %d\n",joueur->vie);
+    printf("Choissisez entre 1 et 4\n");
+    printf("1 - Avancer\n");
+    printf("2 - Reculer\n");
+    printf("3 - Monter\n");
+    printf("4 - Descendre \n");
+    printf("Choix : ");
+
+    choix_deplacement=_getch()-'0';
+    switch (choix_deplacement)
+    {
+        case 1: // Avancer
+            if(joueur->position.x<20)
+            {
+                 joueur->position.x += 1;
+            printf("Snoopy avance d'une unite vers la droite. Nouvelle position : (%d, %d)\n", joueur->position.x, joueur->position.y);
+            deplacementBalle(maBalle);
+            changementDirectionBalle(maBalle);
+            }
+            else
+            {
+                printf("Vous etes a la bordure");
+                sleep(1);
+            }
+            break;
+        case 2: // Reculer
+            if (joueur->position.x>1)
+            {
+                joueur->position.x -= 1;
+            printf("Snoopy recule d'une unite vers la gauche. Nouvelle position : (%d, %d)\n", joueur->position.x, joueur->position.y);
+            deplacementBalle(maBalle);
+            changementDirectionBalle(maBalle);
+
+            }
+            else{
+                printf("Vous etes a la bordure");
+                sleep(1);
+            }
+
+            break;
+        case 3: // Monter
+            if (joueur->position.y>1)
+            {
+            joueur->position.y -= 1;
+            printf("Snoopy monte d'une unite vers le haut. Nouvelle position : (%d, %d)\n", joueur->position.x, joueur->position.y);
+            deplacementBalle(maBalle);
+            changementDirectionBalle(maBalle);
+            }
+            else
+            {
+                printf("Vous etes a la bordure");
+            }
+            break;
+        case 4: // Descendre
+        if (joueur->position.y<10)
+        {
+             joueur->position.y += 1;
+            printf("Snoopy descend d'une unite vers le bas. Nouvelle position : (%d, %d)\n", joueur->position.x, joueur->position.y);
+            deplacementBalle(maBalle);
+            changementDirectionBalle(maBalle);
+        }
+             else{
+                    printf("Vous etes a la bordure");
+                sleep(1);
+            }
+            break;
+        default:
+            printf("Choix invalide. Veuillez entrer un nombre entre 1 et 4.\n");
+            return -1; // Valeur de retour pour indiquer une erreur
+    }
+    return 0;
+}
+
+
+void changementDirectionBalle(Balle *maBalle)
+{
+    if (maBalle->position_balle.x==0 || maBalle->position_balle.x==9)
+    {
+      /*maBalle->etat[0]=1;
+        maBalle->etat[1]=0;
+        maBalle->etat[2]=0;
+        maBalle->etat[3]=0;*/
+        maBalle->x=maBalle->x*(-1);
+
+    }
+    else if (maBalle->position_balle.y==0 || maBalle->position_balle.y==19)
+    {
+     /*   maBalle->etat[0]=1;
+        maBalle->etat[1]=0;
+        maBalle->etat[2]=0;
+        maBalle->etat[3]=0;*/
+         maBalle->y=maBalle->y*(-1);
+    }
+    else if (maBalle->position_balle.x==0 && maBalle->position_balle.y==0)
+    {
+      /*  maBalle->etat[0]=0;
+        maBalle->etat[1]=1;
+        maBalle->etat[2]=0;
+        maBalle->etat[3]=0;*/
+         maBalle->x=maBalle->x*(-1);
+          maBalle->y=maBalle->y*(-1);
+    }
+    else if (maBalle->position_balle.x==9 && maBalle->position_balle.y==19)
+    {
+         maBalle->x=maBalle->x*(-1);
+         maBalle->y=maBalle->y*(-1);
+    }
+}
+
+
+void plateau(Snoopy *joueur,Balle *maBalle)
+{
+
+
+
+
+    system("cls");
+      for (int k = 0; k < 10; ++k) {
+        for (int j = 0; j < 1; ++j) {
+            for (int i = 0; i < 20; ++i) {
+
+
+                    printf("%c%c%c%c%c%c", 0xC9, 0xCD, 0xCD, 0xCD, 0xCD, 0xBB);
+
+            }
+
+            for (int m = 0; m < 1; ++m) {
+                for (int i = 0; i < 20; ++i) {
+
+                    int isSnoopy = (i == joueur->position.x - 1 && k == joueur->position.y - 1) && joueur->vie > 0;
+                    int isPiege = 0;
+
+                    for (int p = 0; p < joueur->nbPieges; ++p) {
+                        if (i == joueur->pieges[p].positionPiege.x - 1 && k == joueur->pieges[p].positionPiege.y - 1) {
+                            isPiege = 1;
+                            break;
+                        }
+                    }
+
+                /*    if (isSnoopy==isPiege) {
+                        printf("%c%c%c%c%c%c", 0xBA, 0x20, 0x01, 0x20, 0x20, 0xBA);
+                        joueur->vie-=1;
+                    }*/
+                    if (isSnoopy)
+                    {
+                        printf("%c%c%c%c%c%c", 0xBA, 0x20, 0x01, 0x20, 0x20, 0xBA);
+                    }
+                    else if(i == maBalle->position_balle.y && k == maBalle->position_balle.x){
+                        printf("%c%co%c%c%c", 0xBA, 0x20, 0x20, 0x20, 0xBA);
+                    }
+                     else if (isPiege) {
+                        printf("%c%c%c%c%c%c", 0xBA, 0x20, 0X5, 0x20, 0x20, 0xBA);
+                    } else {
+                        printf("%c%c%c%c%c%c", 0xBA, 0x20, 0x20, 0x20, 0x20, 0xBA);
+                    }
+                }
+            }
+
+            for (int i = 0; i < 20; ++i) {
+
+                printf("%c%c%c%c%c%c", 0xC8, 0xCD, 0xCD, 0xCD, 0xCD, 0xBC);
+
+            }
+            printf("\n");
+        }
+    }
+
+    for (int p =0 ; p<joueur->nbPieges; ++p)
+    {
+        if(joueur->position.x==joueur->pieges[p].positionPiege.x && joueur->position.y==joueur->pieges[p].positionPiege.y )
+            joueur->vie-=1;
+    }
+    if (joueur->vie<=0)
+    {
+       menu();
+    }
+}
+
+void regles()
+{
+    FILE*fichier=NULL;
+    char ligne[1024];
+
+    fichier=fopen("regles.txt","r");
+    if (fichier == NULL)
+    {
+        printf("Impossible d'ouvrir le fichier.\n");
+    }
+
+    while (fgets(ligne, sizeof(ligne), fichier) != NULL)
+    {
+        printf("%s", ligne);
+    }
+}
+
+int lecturemdp()
+{
+    Snoopy joueur1;
+    Balle maBalle;
+    char *tab[30];
+    char mdp[30];
+    char tempo[20];
+    int nbligne=0;
+    FILE*fichier=NULL;
+    fichier=fopen("niveaumdp.txt","r");
+    if (fichier == NULL)
+    {
+        printf("Impossible d'ouvrir le fichier.\n");
+        return 1;
+    }
+    printf("Saisir le mot de passe du niveau auquel vous voulez acceder\n");
+    scanf("%s",mdp);
+    while (fgets(tempo, sizeof(tempo), fichier) != NULL)
+    {
+        tab[nbligne] = strdup(tempo);
+        nbligne++;
+    }
+    fclose(fichier);
+    for (int i = 0; i < nbligne; i++)
+    {
+        tab[i][strlen(tab[i]) - 1] = '\0';
+        if (strcmp(mdp, tab[i]) == 0)
+        {
+            printf("Mot de passe correct.\n");
+            if (i == 0)
+            {
+                printf("Vous allez au niveau 1\n");
+                while (joueur1.vie > 0)
+                {
+                    plateau(&joueur1,&maBalle);
+                    /* afficherInfosJoueur(&joueur1);*/
+                    deplacement(&joueur1,&maBalle);
+                }
+            }
+            else if (i == 1)
+            {
+                printf("Vous allez au niveau 2\n");
+            }
+            else if (i == 2)
+            {
+                printf("Vous allez au niveau 3\n");
+            }
+            else if (i == 3)
+            {
+                printf("Vous allez au niveau 4\n");
+            }
+            for (int j = 0; j < nbligne; j++)
+            {
+                free(tab[j]);
+            }
+            return 0;
+
+        }
+    }
+    printf("Mot de passe incorrecte\n");
+    return 1;
+}
