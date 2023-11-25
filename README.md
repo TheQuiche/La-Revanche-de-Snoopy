@@ -13,7 +13,8 @@ Une fois lancé, le jeu proposera un menu classique permettant de réaliser les 
 4. Lancer directement un niveau via son Mot de passe  
 5. Scores  
 6. Quitter  
-Lire attentivement et respecter scrupuleusement toutes les règles du jeu qui suivent. 
+
+
 Initialement, le joueur possède 3 vies.   
 Chaque niveau devra être résolu en moins de 120 secondes. Si le temps est écoulé, le joueur perd une 
 vie et recommence le niveau. Le but est de récupérer les 4 oiseaux du niveau sans se faire toucher par 
