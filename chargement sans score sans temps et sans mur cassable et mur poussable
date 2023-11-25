@@ -1,0 +1,94 @@
+void chargement(Snoopy*joueur,Balle*maBalle)
+{
+    FILE*fichier;
+    char nom[30];
+    int choix;
+    printf("Saisir le nom du fichier de chargement\n");
+    scanf("%s",nom);
+    do
+    {
+        printf("1) Charger un fichier binaire\n2)Charger un fichier texte\n");
+        scanf("%d",&choix);
+    }
+    while(choix<1 || choix>2);
+    if(choix==2)
+    {
+        strcat(nom,".txt");
+        fichier=fopen(nom,"r");
+        if(fichier==NULL)
+        {
+            printf("Impossibe douvrir le fichier\n");
+        }
+        else
+        {
+            while(!feof(fichier))
+            {
+                fscanf(fichier,"%d\n",&joueur->niveau);
+
+                fscanf(fichier,"%d\n" "%d\n",&joueur->position.x,&joueur->position.y);
+                fscanf(fichier,"%d\n",&joueur->nbPieges);
+                fscanf(fichier,"%d\n",&joueur->vie);
+                fscanf(fichier,"%d\n",&joueur->nbOiseau);
+
+                for(int i=0; i<joueur->nbPieges; i++)
+                {
+                    fscanf(fichier,"%d\n""%d\n",&joueur->pieges[i].positionPiege.x,&joueur->pieges[i].positionPiege.y);
+                }
+                for(int i=0; i<4; i++)
+                {
+                    fscanf(fichier,"%d\n""%d\n",&joueur->oiseaux[i].positionOiseau.x,&joueur->oiseaux[i].positionOiseau.y);
+                }
+
+                fscanf(fichier,"%d\n" "%d\n",&maBalle->position_balle.x,&maBalle->position_balle.y);
+                for(int i=0; i<joueur->nbMurs; i++)
+                {
+                    fscanf(fichier,"%d\n""%d\n",&joueur->murs[i].positionMur.x,&joueur->murs[i].positionMur.y);
+                }
+
+                printf("La position de Snoopy x est %d et la position y est %d",joueur->position.x,joueur->position.y);
+            }
+            fclose(fichier);
+        }
+    }
+    else if(choix==1)
+    {
+        strcat(nom,".bin");
+        fichier=fopen(nom,"rb");
+        if(fichier==NULL)
+        {
+            printf("Impossibe douvrir le fichier\n");
+        }
+        else
+        {
+            while(!feof(fichier))
+            {
+                fscanf(fichier,"%d\n",&joueur->niveau);
+
+                fscanf(fichier,"%d\n" "%d\n",&joueur->position.x,&joueur->position.y);
+                fscanf(fichier,"%d\n",&joueur->nbPieges);
+                fscanf(fichier,"%d\n",&joueur->vie);
+                fscanf(fichier,"%d\n",&joueur->nbOiseau);
+
+                for(int i=0; i<joueur->nbPieges; i++)
+                {
+                    fscanf(fichier,"%d\n""%d\n",&joueur->pieges[i].positionPiege.x,&joueur->pieges[i].positionPiege.y);
+
+                }
+                for(int i=0; i<4; i++)
+                {
+                    fscanf(fichier,"%d\n""%d\n",&joueur->oiseaux[i].positionOiseau.x,&joueur->oiseaux[i].positionOiseau.y);
+                }
+                fscanf(fichier,"%d\n" "%d\n",&maBalle->position_balle.x,&maBalle->position_balle.y);
+
+                for(int i=0; i<joueur->nbMurs; i++)
+                {
+                    fscanf(fichier,"%d\n""%d\n",&joueur->murs[i].positionMur.x,&joueur->murs[i].positionMur.y);
+                }
+                printf("La position de Snoopy x est %d et la position y est %d",joueur->position.x,joueur->position.y);
+
+            }
+            fclose(fichier);
+        }
+    }
+
+}
