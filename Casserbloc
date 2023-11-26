@@ -1,0 +1,24 @@
+void casserBlocCassable(Snoopy *joueur)
+{
+    int x = joueur->position.x;
+    int y = joueur->position.y;
+
+    // Vérifier la proximité du joueur avec les blocs cassables
+    for (int c = 0; c < joueur->nbCassables; ++c)
+    {
+        int cx = joueur->cassables[c].positionCassable.x;
+        int cy = joueur->cassables[c].positionCassable.y;
+
+        if (abs(cx - x) <= 1 && abs(cy - y) <= 1)
+        {
+            // Le bloc cassable est à proximité du joueur, le casser
+            joueur->cassables[c].positionCassable.x = 0;
+            joueur->cassables[c].positionCassable.y = 0;
+            printf("Bloc cassable détruit !\n");
+            return;
+        }
+    }
+
+    // Aucun bloc cassable à proximité
+    printf("Aucun bloc cassable à proximité.\n");
+}
